@@ -6,7 +6,6 @@ import scrape_mars
 from jinja2 import Template
 import pandas as pd
 
-
 app = Flask(__name__)
 
 # Initialize PyMongo to work with MongoDBs
@@ -14,10 +13,6 @@ conn = 'mongodb://localhost:27017'
 client = MongoClient(conn)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/mars"
 mongo = PyMongo(app)
-
-# Define database and collection
-#db = client.mars
-#collection = db.mars_data
 
 @app.route('/')
 def index():
