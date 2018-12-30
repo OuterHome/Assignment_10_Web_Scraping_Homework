@@ -7,6 +7,9 @@ import pandas as pd
 
 app = Flask(__name__)
 
+## Go easy on me; between christmas and my uncle passing away this week, it has been pretty hectic. 
+## I am happy I seem to be getting the proper outputs--- 
+
 # Initialize PyMongo to work with MongoDBs
 conn = 'mongodb://localhost:27017'
 client = MongoClient(conn)
