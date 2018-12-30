@@ -137,7 +137,7 @@ def scrape():
     ## (by adding a pop-up banner), late at night. I had to redo this 
     ## section; i'm leaving in the old code in case it goes back to the
     ## old way.
-    
+
     xpath = '//*[@id="product-section"]/div[2]/div[1]/div/a'
     browser.find_by_xpath(xpath).first.click()
     time.sleep(1)
@@ -245,19 +245,7 @@ def scrape():
     # Create dictionary to hold hemisphere data
     hemi_dict = {k: v for k, v in zip(title, img_url)}
 
-    mars_hemi_images_dict = dict(zip(title, img_url))
-
-    # Create dataframe to hold hemisphere data
-    mars_hemi_df = pd.DataFrame(
-    {'title': title,
-     'img_url': img_url,
-    })
-    mars_hemi_df.set_index("title")
-
-    mars_dict["mars_hemi_title"] = title
-    mars_dict["mars_hemi_img_url"] = img_url
     mars_dict["mars_hemi_imgs"] = hemi_dict
-    #mars_dict["mars_hemi_imgs_items"] = hemi_items
 
     return mars_dict
     #json.loads(mars_dict.to_json())
