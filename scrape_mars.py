@@ -21,10 +21,6 @@ def scrape():
     # create mars dictionary to insert into a MongoDB
     mars_dict = {}
 
-    # Set variables
-    #html = browser.html
-    #soup = BeautifulSoup(html, 'html.parser')
-
     ### Scrape Mars News ###
     url_news = 'https://mars.nasa.gov/news/'
     browser.visit(url_news)
@@ -130,18 +126,41 @@ def scrape():
     title_str = title_str.replace("[", "")
     title_str = title_str.replace("]", "")
     title_str = title_str.strip()
-    title_str = title_str.replace("Enhanced", "Hemisphere")
+    if "Hemisphere" not in title_str:  
+        title_str = title_str.replace("Enhanced", "Hemisphere")
+    else:
+        pass
     title = title_str.split(",")
 
     # Query for Cerberus Hemisphere
+    ## The daggum wayback website changed how it was feeding me pages 
+    ## (by adding a pop-up banner), late at night. I had to redo this 
+    ## section; i'm leaving in the old code in case it goes back to the
+    ## old way.
+    
     xpath = '//*[@id="product-section"]/div[2]/div[1]/div/a'
     browser.find_by_xpath(xpath).first.click()
     time.sleep(1)
     xpath2 = '//*[@id="wide-image"]/div/ul/li[1]/a'
     browser.find_by_xpath(xpath2).first.click()
     time.sleep(1)
-    img_url.append(browser.url)
+    #browser.back()
+    url_1 = browser.url
+    browser.visit(url_1)
+    response_1 = requests.get(url_1)
+    soup1 = BeautifulSoup(response_1.text, 'html.parser')
+    img_src = soup1.find("img", class_="wide-image")["src"]
+    final_src = "http://web.archive.org" + img_src
+    img_url.append(final_src) 
     browser.back()
+
+    # xpath3 = '//*[@id="wm-expand"]/span[2]'
+    # browser.find_by_xpath(xpath3).first.click()
+    # time.sleep(1)
+    # xpath4 = '//*[@id="wm-capresources"]/div/a'
+    # browser.find_by_xpath(xpath4).first.click()
+    # browser.back()
+    # browser.back()
 
     # Query for Schiaparelli Hemisphere
     xpath = '//*[@id="product-section"]/div[2]/div[2]/div/a'
@@ -150,8 +169,23 @@ def scrape():
     xpath2 = '//*[@id="wide-image"]/div/ul/li[1]/a'
     browser.find_by_xpath(xpath2).first.click()
     time.sleep(1)
-    img_url.append(browser.url)
+    #browser.back()
+    url_1 = browser.url
+    browser.visit(url_1)
+    response_1 = requests.get(url_1)
+    soup1 = BeautifulSoup(response_1.text, 'html.parser')
+    img_src = soup1.find("img", class_="wide-image")["src"]
+    final_src = "http://web.archive.org" + img_src
+    img_url.append(final_src) 
     browser.back()
+    
+    # xpath3 = '//*[@id="wm-expand"]/span[2]'
+    # browser.find_by_xpath(xpath3).first.click()
+    # time.sleep(1)
+    # xpath4 = '//*[@id="wm-capresources"]/div/a'
+    # browser.find_by_xpath(xpath4).first.click()
+    # browser.back()
+    # browser.back()
 
     # Query for Syrtis Major Hemisphere
     xpath = '//*[@id="product-section"]/div[2]/div[3]/div/a'
@@ -160,8 +194,23 @@ def scrape():
     xpath2 = '//*[@id="wide-image"]/div/ul/li[1]/a'
     browser.find_by_xpath(xpath2).first.click()
     time.sleep(1)
-    img_url.append(browser.url)
+    #browser.back()
+    url_1 = browser.url
+    browser.visit(url_1)
+    response_1 = requests.get(url_1)
+    soup1 = BeautifulSoup(response_1.text, 'html.parser')
+    img_src = soup1.find("img", class_="wide-image")["src"]
+    final_src = "http://web.archive.org" + img_src
+    img_url.append(final_src) 
     browser.back()
+
+    # xpath3 = '//*[@id="wm-expand"]/span[2]'
+    # browser.find_by_xpath(xpath3).first.click()
+    # time.sleep(1)
+    # xpath4 = '//*[@id="wm-capresources"]/div/a'
+    # browser.find_by_xpath(xpath4).first.click()
+    # browser.back()
+    # browser.back()
 
     # Query for Valles Marineris Hemisphere
     xpath = '//*[@id="product-section"]/div[2]/div[4]/div/a'
@@ -170,59 +219,46 @@ def scrape():
     xpath2 = '//*[@id="wide-image"]/div/ul/li[1]/a'
     browser.find_by_xpath(xpath2).first.click()
     time.sleep(1)
-    img_url.append(browser.url)
 
-    # Prepare title and img_url
-    #title = ["title: " + s for s in title]
-    #img_url = ["img_url: " + s for s in img_url]
+    # xpath3 = '//*[@id="wm-expand"]/span[2]'
+    # browser.find_by_xpath(xpath3).first_click()
+    # time.sleep(1)
+    # xpath4 = '//*[@id="wm-capresources"]/div/a'
+    # time.sleep(1)
+
+    url_1 = browser.url
+    browser.visit(url_1)
+    response_1 = requests.get(url_1)
+    soup1 = BeautifulSoup(response_1.text, 'html.parser')
+    img_src = soup1.find("img", class_="wide-image")["src"]
+    final_src = "http://web.archive.org" + img_src
+    img_url.append(final_src) 
+    # browser.windows.current = browser.windows[4]
+    # img_url.append(browser.url)
+    # browser.windows.current = browser.windows[3]
+    # img_url.append(browser.url)
+    # browser.windows.current = browser.windows[2]
+    # img_url.append(browser.url)
+    # browser.windows.current = browser.windows[1]
+    # img_url.append(browser.url)
 
     # Create dictionary to hold hemisphere data
     hemi_dict = {k: v for k, v in zip(title, img_url)}
 
-    # Define function to split dictionary into 4 parts
-    # def split_dict_equally(input_dict, chunks=4):
-    #     return_list = [dict() for idx in range(chunks)]
-    #     idx = 0
-    #     for k,v in input_dict.items():
-    #         return_list[idx][k] = v
-    #         if idx < chunks-1:  # indexes start at 0
-    #             idx += 1
-    #         else:
-    #             idx = 0
-    #     return return_list
+    mars_hemi_images_dict = dict(zip(title, img_url))
 
-    # Split hemi_dict into a list of 4 dictionaries
-    # split_dict_equally(hemi_dict, chunks=4)
-
-    # Create hemisphere items
-    #hemi_items = hemi_dict.items()
-
-    # Add Mars hemisphere data to mars_dict
-    ###mars_dict["mars_hemi_imgs"] = hemi_dict
-    mars_dict_5 = {}
-    mars_dict_5["title"] = title_str
-    mars_dict_5["img_urg"] = img_url_str
-    #mars_dict_list_5 = []
-    #mars_dict_list_5.append(mars_dict_5.copy())
-    #mars_dict_list_5
-    mars_dict_6 = {k: v for k, v in zip(title, img_url)}
-    mars_dict_6
-
-    mars_dict["mars_hemi_imgs"] = mars_dict_6
+    # Create dataframe to hold hemisphere data
+    mars_hemi_df = pd.DataFrame(
+    {'title': title,
+     'img_url': img_url,
+    })
+    mars_hemi_df.set_index("title")
 
     mars_dict["mars_hemi_title"] = title
     mars_dict["mars_hemi_img_url"] = img_url
-    #mars_dict["report"] = build_report(mars_report)
-    #mars_report = report.find_all("p")
+    mars_dict["mars_hemi_imgs"] = hemi_dict
     #mars_dict["mars_hemi_imgs_items"] = hemi_items
 
     return mars_dict
     #json.loads(mars_dict.to_json())
     browser.quit()
-
-def build_report(mars_report):
-    final_report = ""
-    for p in mars_report:
-        final_report += " " + p.get_text()
-        print(final_report)
-    return final_report
