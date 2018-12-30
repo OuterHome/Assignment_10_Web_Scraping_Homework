@@ -62,20 +62,11 @@
 
     <div class="row">
       <div class="col-md-12, text-center">
-        <!-- <h3>Mars Hemisphere Images</h3>  
-        {% for element in mars.mars_hemi_title %}
-        <h5>{{ element }}</h5>
-        {% endfor %}
-        {% for element in mars.mars_hemi_img_url %}
-        <img src= {{ element }} width: 50% />
-        {% endfor %} -->
-
         <h2>Mars Hemisphere Images</h2>  
         {% for key, value in mars.mars_hemi_imgs.items() %}
             <h3>{{ key }}</h5>
             <img src= {{ value }} width: 50% />
         {% endfor %}
-        
       </div>
     </div>
 
@@ -83,4 +74,5 @@
 
 </body>
 </html>
+
 
